@@ -214,6 +214,7 @@ class EditableTable extends React.Component<{}, {}> {
             />);
         };
         return (<ColumnHeaderCell
+            index={columnIndex}
             menu={testMenu}
             name={this.state.names[columnIndex]}
             renderName={renderName}
@@ -497,7 +498,11 @@ ReactDOM.render(
         renderColumnHeader: (columnIndex: number) => {
             const alpha = Utils.toBase26Alpha(columnIndex);
             return (
-                <ColumnHeaderCell name={`${alpha} Column with a substantially long header name`} menu={testMenu}>
+                <ColumnHeaderCell
+                    index={columnIndex}
+                    name={`${alpha} Column with a substantially long header name`}
+                    menu={testMenu}
+                >
                     <h4>Header {alpha}</h4>
                     <p>Whatever interactive header content goes here lorem ipsum.</p>
                 </ColumnHeaderCell>
@@ -505,7 +510,7 @@ ReactDOM.render(
         },
     }, {
         renderRowHeaderCell : (rowIndex: number) => {
-            return <RowHeaderCell name={`${rowIndex + 1}`} menu={testMenu} />;
+            return <RowHeaderCell index={rowIndex} name={`${rowIndex + 1}`} menu={testMenu} />;
         },
     }),
     document.getElementById("table-6"),
@@ -523,16 +528,16 @@ class CustomHeaderCell extends React.Component<IColumnHeaderCellProps, {}> {
 
 ReactDOM.render(
     getTableComponent(2, 5, {
-        renderColumnHeader: () => <CustomHeaderCell name="sup"/>,
+        renderColumnHeader: (columnIndex: number) => <CustomHeaderCell index={columnIndex} name="sup"/>,
     }, {
         allowMultipleSelection: false,
     }),
     document.getElementById("table-7"),
 );
 
-const longContentRenderCell = () => {
+const longContentRenderCell = (rowIndex: number, columnIndex: number) => {
     const long = "This-is-an-example-of-long-content-that-we-don't-want-to-wrap";
-    return <Cell tooltip={long}>{long}</Cell>;
+    return <Cell rowIndex={rowIndex} columnIndex={columnIndex} tooltip={long}>{long}</Cell>;
 };
 
 ReactDOM.render(
