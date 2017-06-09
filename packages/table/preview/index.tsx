@@ -308,7 +308,7 @@ class MutableTable extends React.Component<{}, IMutableTableState> {
                 value={valueAsString}
             />
         ) : (
-            <Cell className={classes}>
+            <Cell className={classes} rowIndex={rowIndex} columnIndex={columnIndex}>
                 {valueAsString}
             </Cell>
         );
